@@ -3,7 +3,7 @@ export default {
   todos: [
     {
       icon: 'user',
-      name: 'Personal',
+      name: '个人',
       tasks: [
         {
           id: 1,
@@ -13,11 +13,11 @@ export default {
           deleted: false
         }
       ],
-      colors: ['#ff6262', '#ffa947']
+      colors: ['#5b9df9', '#47bfff']
     },
     {
-      icon: 'suitcase',
-      name: 'Work',
+      icon: 'briefcase',
+      name: '工作',
       tasks: [
         {
           id: 3,
@@ -68,11 +68,11 @@ export default {
           deleted: false
         }
       ],
-      colors: ['#5b9df9', '#47bfff']
+      colors: ['#ff6262', '#ffa947']
     },
     {
       icon: 'home',
-      name: 'Home',
+      name: '家庭',
       tasks: [
         {
           id: 2,

@@ -1,7 +1,8 @@
 import { tomorrow } from '../common/js/shared'
-export const cuurentIndex = state => state.currentIndex
+export const currentIndex = state => state.currentIndex
 export const currentTodo = state => state.todos[state.currentIndex]
 export const todos = state => state.todos
+export const selected = state => state.selected
 export const todayTasks = state => {
   const tasks = []
   state.todos.forEach(todo => {

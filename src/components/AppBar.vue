@@ -1,6 +1,6 @@
 <template>
   <div class="app-bar">
-    <span class="app-bar-l">
+    <span class="app-bar-l" @click="clickLeft">
       <i :class="['icon',`icon-${left}`]"></i>
     </span>
     <h1>{{title}}</h1>
@@ -23,6 +23,11 @@ export default {
     right: {
       type: String,
       default: ''
+    }
+  },
+  methods: {
+    clickLeft () {
+      this.$emit('left')
     }
   }
 }
