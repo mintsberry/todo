@@ -1,5 +1,5 @@
 <template>
-  <div class="todo" :class="{ select: selected }">
+  <div class="todo" :class="{ select: selected }" ref="todo">
     <div class="todo_head" @click="handleClick">
       <div class="todo_icon" :style="{color}">
         <i :class="['icon', `icon-${todo.icon}`]"></i>
@@ -8,14 +8,16 @@
         <i class="icon icon-application"></i>
       </div>
     </div>
-    <div class="todo_body">
-      <p class="todo_tips">{{ todo.tasks.length }} 任务</p>
-      <h3 class="todo_title">{{todo.name}}</h3>
-      <div class="todo_progress">
-        <span class="todo_progress_line">
-          <i :style="{ width: progress, backgroundImage: progressColor}"></i>
-        </span>
-        <span class="todo_progress_num">{{progress}}</span>
+    <div class="todo_body" ref="todo_body">
+      <div class="todo_outline">
+        <p class="todo_tips">{{ todo.tasks.length }} 任务</p>
+        <h3 class="todo_title">{{todo.name}}</h3>
+        <div class="todo_progress">
+          <span class="todo_progress_line">
+            <i :style="{ width: progress, backgroundImage: progressColor}"></i>
+          </span>
+          <span class="todo_progress_num">{{progress}}</span>
+        </div>
       </div>
       <div class="todo_tasks">
         <h4 class="todo_subtitle" v-if="todayTasks.length">Today</h4>
@@ -43,6 +45,7 @@
 <script>
 import Task from './Task.vue'
 import { today, tomorrow } from '../common/js/shared'
+const BOTTOM_KEEP = 20
 export default {
   components: {
     Task
@@ -87,6 +90,15 @@ export default {
       })
     }
   },
+  mounted () {
+    window.addEventListener('resize', () => {
+      this._bodyOffset()
+    })
+
+    setTimeout(() => {
+      this._bodyOffset();
+    }, 100);
+  },
   methods: {
     handleClick () {
       const appRect = document.querySelector('#app').getBoundingClientRect()
@@ -100,6 +112,14 @@ export default {
       rect.appWidth = document.documentElement.clientWidth
       rect.appHeight = document.documentElement.clientHeight
       this.$emit('select', { rect, todo })
+    },
+    _bodyOffset () {
+      let height = document.querySelector('.todo_head').clientHeight + document.querySelector('.todo_outline').clientHeight
+      console.log("TCL: _bodyOffset -> height", height)
+      let offsetHight = this.$refs.todo.clientHeight * 80% - height 
+      console.log("TCL: _bodyOffset -> clientHeight", this.$refs.todo)
+      console.log("TCL: _bodyOffset -> clientHeight", this.$refs.todo.clientHeight)
+      this.$refs.todo_body.style.transform = `translate3d(0, ${offsetHight}px, 0)`
     }
   }
 }
@@ -116,7 +136,7 @@ export default {
   }
   .todo_head {
     display: flex;
-    padding: 8px;
+    padding: 20px;
     height: 44px;
     justify-content: space-between;
     align-items: flex-start;
@@ -146,9 +166,8 @@ export default {
   }
   .todo_body {
     padding: 0 20px;
-    transform: translate3d(0, 189px, 0);
+    // transform: translate3d(0, 70%, 0);
     will-change: transform;
-
     .todo_tips {
     opacity: .6;
     font-size: 14px;
@@ -179,7 +198,7 @@ export default {
     }
     .todo_tasks {
       opacity: 1;
-      // transform: scale3d(1, 0, 1)
+      transform: scale3d(1, 0, 1)
     }
     .todo_subtitle {
       margin-top: 32px;
