@@ -68,7 +68,7 @@ export default {
 <style lang="scss">
 .todo-list {
   padding: 0 32px;
-  height: 400px;
+  height: 50%;
   transition: all .5s ease;
 
   > ul,

@@ -1,5 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home"
+  @touchstart="touchStart"
+  @touchmove="perventPullUp">
     <AppBar :title="'TODO'" :left="'list'" :right="'search'"/>
     <Avatar/>
     <Gradient/>
@@ -21,13 +23,28 @@ export default {
     Gradient,
     TodoList,
     TodoDetail
+  },
+  methods: {
+    touchStart (event) {
+      this.touch = {}
+      this.touch.startY = event.touches[0].clientY
+    },
+    perventPullUp (event) {
+      this.touch.endY = event.touches[0].clientY
+      if (this.touch.endY - this.touch.startY > 0) {
+        event.preventDefault()
+      }
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
 .home {
-  height: 100%;
-  width: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
   overflow: hidden;
   color: white;
 }

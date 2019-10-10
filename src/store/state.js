@@ -20,49 +20,36 @@ export default {
       name: '工作',
       tasks: [
         {
-          id: 3,
-          title: 'Design Sprint',
-          date: new Date(),
-          done: true,
-          deleted: false
-        },
-        {
           id: 4,
-          title: 'Icon Set Design for Mobile App',
+          title: '为应用app设计图标',
           date: new Date(),
           done: false,
           deleted: false
         },
         {
           id: 5,
-          title: 'HTML/CSS Study',
+          title: 'HTML/CSS 学习',
           date: new Date(),
           done: false,
           deleted: false
         },
         {
           id: 6,
-          title: 'Weekly Report',
+          title: '周报',
           date: new Date(),
           done: false,
           deleted: false
         },
         {
           id: 7,
-          title: 'Design Meeting',
+          title: '设计研讨会议',
           date: new Date(),
           done: false,
           deleted: false
         },
         {
-          title: 'Quick Prototyping',
-          date: new Date('2019-09-16'),
-          done: false,
-          deleted: false
-        },
-        {
           id: 8,
-          title: 'UX Conference',
+          title: 'Vue',
           date: new Date('2019-09-16'),
           done: false,
           deleted: false

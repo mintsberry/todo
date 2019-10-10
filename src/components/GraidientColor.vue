@@ -29,7 +29,7 @@ export default {
   width: 100%;
   height: 100%;
   opacity: 0;
-  transform: opacity .5s ease;
+  transition: opacity .5s ease;
 }
 .active {
   opacity: 1;

@@ -7,7 +7,7 @@
     <p class="avatar_tips">
       看起来不错.<br/>
       今天.
-      你还有4<!-- {{todayTask.length}}-->件事情要做
+      你还有{{todayTasks.length}}件事情要做
     </p>
     <p class="avatar_date">日期 : {{ today | dateString }}</p>
   </div>
@@ -38,7 +38,7 @@ export default {
 .avatar {
   display: flex;
   padding: 0 40px;
-  height: 300px;
+  height: 40%;
   justify-content: flex-end;
   flex-direction: column;
   transition: all .5s ease;
