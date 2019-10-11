@@ -49,7 +49,7 @@ export default {
     flex: 0 0 32px;
     padding: 0 20px;
     .icon {
-      font-size: 32px
+      font-size: 38px
     }
   }
 }

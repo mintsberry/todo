@@ -2,7 +2,7 @@
   <transition name="show" @enter="handleEnter" @leave="handleLeave">
     <div class="todo-detail" v-if="selected">
       <AppBar @left="unselectTodo" :left="'arrow_left'"/>
-      <todo :todo="selected.todo" :active="true" @close="unselectTodo" />
+      <Todo :todo="selected.todo" :selected="true" @close="unselectTodo" ref="todo" />
     </div>
   </transition>
 </template>
@@ -11,6 +11,7 @@
 import { mapState, mapMutations } from 'vuex'
 import AppBar from './AppBar.vue'
 import Todo from './Todo.vue'
+const BOOTOM_KEEP = 40
 export default {
   components: {
     AppBar,
@@ -20,7 +21,11 @@ export default {
     ...mapState(['selected', 'unselect'])
   },
   methods: {
-    ...mapMutations(['unselectTodo']),
+    _bodyOffset () {
+      let height = document.querySelector('.todo_head').clientHeight + document.querySelector('.todo_outline').clientHeight
+      let offsetHight = document.documentElement.clientHeight * 0.5 - height - BOOTOM_KEEP
+      this.$refs.todo.$el.querySelector('.todo_body').style.transform = `translate3d(0, ${offsetHight}px, 0)`
+    },
     handleEnter (el) {
       Object.assign(el.style, {
         top: `${this.selected.rect.top}px`,
@@ -38,12 +43,6 @@ export default {
       }, 0)
     },
     handleLeave (el) {
-      Object.assign(el.style, {
-        top: 0,
-        left: 0,
-        width: `${this.unselect.rect.appWidth}px`,
-        height: `${this.unselect.rect.appHeight}px`
-      })
       setTimeout(() => {
         Object.assign(el.style, {
           top: `${this.unselect.rect.top}px`,
@@ -52,12 +51,14 @@ export default {
           height: `${this.unselect.rect.height}px`
         })
       }, 0)
-    }
+      this._bodyOffset()
+    },
+    ...mapMutations(['unselectTodo'])
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 .todo-detail {
   position: fixed;
   display: flex;
@@ -75,79 +76,54 @@ export default {
   }
   .todo_head,
   .todo_body {
-    transform: translate3d(0, 88px, 0);
+    transform: translate3d(0, 88px, 0)
   }
   .todo_menu {
     opacity: 0;
   }
   .todo_tasks {
     opacity: 1;
-    transform: scaleY(1);
+    transform: scale3d(1, 1, 1) !important;
   }
   .app-bar {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
-}
-.show-enter-to,
-.show-leave {
-  border-radius: 0;
+  &.show-leave-to,
+  &.show-enter {
+    border-radius: 8px;
 
-  .todo {
-    padding: 0 20px;
+    .todo {
+      padding: 0;
+    }
+    .todo_head {
+      transform: translate3d(0, 0, 0);
+    }
+    .todo_menu {
+      opacity: 1;
+    }
+    .todo_tasks {
+      opacity: 0;
+      transform: scale3d(1, 0, 1);
+    }
+    .app-bar {
+      opacity: 0;
+      transform: translate3d(0, -100%, 0);
+    }
   }
-  .todo_head,
-  .todo_body {
-    transform: translate3d(0, 88px, 0);
-  }
-  .todo_menu {
-    opacity: 0;
-  }
-  .todo_tasks {
-    opacity: 1;
-    transform: scale3d(1, 1, 1);
-  }
-  .app-bar {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-.show-leave-to,
-.show-enter {
-  border-radius: 8px;
+  &.show-enter-active,
+  &.show-leave-active {
+    transition: all .5s ease;
 
-  .todo {
-    padding: 0;
-  }
-  .todo_head {
-    transform: translate3d(0, 0, 0);
-  }
-  .todo_body {
-    transform: translate3d(0, 189px, 0);
-  }
-  .todo_menu {
-    opacity: 1;
-  }
-  .todo_tasks {
-    opacity: 0;
-    transform: scale3d(1, 0, 1);
-  }
-  .app-bar {
-    opacity: 0;
-    transform: translate3d(0, -100%, 0);
+    .todo,
+    .todo_head,
+    .todo_body,
+    .todo_menu,
+    .todo_tasks,
+    .app-bar {
+      transition: all .5s ease;
+    }
   }
 }
-.show-enter-active,
-.show-leave-active {
-  transition: all 0.5s ease;
 
-  .todo,
-  .todo_head,
-  .todo_body,
-  .todo_menu,
-  .todo_tasks,
-  .app-bar {
-    transition: all 0.5s ease;
-  }
-}
 </style>

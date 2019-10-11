@@ -10,7 +10,7 @@
     </div>
     <div class="todo_body" ref="todo_body">
       <div class="todo_outline">
-        <p class="todo_tips">{{ todo.tasks.length }} 任务</p>
+        <p class="todo_tips">{{ todo.tasks.length }} Task</p>
         <h3 class="todo_title">{{todo.name}}</h3>
         <div class="todo_progress">
           <span class="todo_progress_line">
@@ -45,7 +45,7 @@
 <script>
 import Task from './Task.vue'
 import { today, tomorrow } from '../common/js/shared'
-const BOTTOM_KEEP = 20
+const BOOTOM_KEEP = 40
 export default {
   components: {
     Task
@@ -56,7 +56,8 @@ export default {
       require: true
     },
     selected: {
-      type: Boolean
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -91,22 +92,23 @@ export default {
     }
   },
   mounted () {
-    window.addEventListener('resize', () => {
-      this._bodyOffset()
-    })
+    if (!this.selected) {
+      window.addEventListener('resize', () => {
+        this._bodyOffset()
+      })
 
-    setTimeout(() => {
-      this._bodyOffset();
-    }, 100);
+      setTimeout(() => {
+        this._bodyOffset()
+      }, 100)
+    }
   },
   methods: {
     handleClick () {
-      const appRect = document.querySelector('#app').getBoundingClientRect()
       const elRect = this.$el.getBoundingClientRect()
       const todo = this.todo
       const rect = {}
-      rect.top = elRect.top - appRect.top
-      rect.left = elRect.left - appRect.left
+      rect.top = elRect.top
+      rect.left = elRect.left
       rect.width = elRect.width
       rect.height = elRect.height
       rect.appWidth = document.documentElement.clientWidth
@@ -115,10 +117,7 @@ export default {
     },
     _bodyOffset () {
       let height = document.querySelector('.todo_head').clientHeight + document.querySelector('.todo_outline').clientHeight
-      console.log("TCL: _bodyOffset -> height", height)
-      let offsetHight = this.$refs.todo.clientHeight * 80% - height 
-      console.log("TCL: _bodyOffset -> clientHeight", this.$refs.todo)
-      console.log("TCL: _bodyOffset -> clientHeight", this.$refs.todo.clientHeight)
+      let offsetHight = this.$refs.todo.clientHeight - height - BOOTOM_KEEP
       this.$refs.todo_body.style.transform = `translate3d(0, ${offsetHight}px, 0)`
     }
   }
@@ -166,7 +165,7 @@ export default {
   }
   .todo_body {
     padding: 0 20px;
-    // transform: translate3d(0, 70%, 0);
+    // transform: translate3d(0, 189px, 0);
     will-change: transform;
     .todo_tips {
     opacity: .6;
@@ -174,7 +173,7 @@ export default {
     font-weight: 600;
     }
     .todo_title {
-      margin-top: 6px;
+      margin-top: 12px;
       font-size: 32px;
     }
     .todo_progress {

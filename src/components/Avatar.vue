@@ -1,5 +1,5 @@
 <template>
-  <div class="avatar" :class="{avatar__selected: !!selected}">
+  <div class="avatar" :class="{avatar__selected: selected}">
     <div class="avatar_face">
       <img src="../common/images/icon.jpg" alt="">
     </div>
