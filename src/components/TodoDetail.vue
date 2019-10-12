@@ -3,6 +3,7 @@
     <div class="todo-detail" v-if="selected">
       <AppBar @left="unselectTodo" :left="'arrow_left'"/>
       <Todo :todo="selected.todo" :selected="true" @close="unselectTodo" ref="todo" />
+      <FloatButton />
     </div>
   </transition>
 </template>
@@ -11,11 +12,13 @@
 import { mapState, mapMutations } from 'vuex'
 import AppBar from './AppBar.vue'
 import Todo from './Todo.vue'
+import FloatButton from './FloatButton.vue'
 const BOOTOM_KEEP = 40
 export default {
   components: {
     AppBar,
-    Todo
+    Todo,
+    FloatButton
   },
   computed: {
     ...mapState(['selected', 'unselect'])
@@ -58,7 +61,7 @@ export default {
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .todo-detail {
   position: fixed;
   display: flex;
@@ -67,7 +70,6 @@ export default {
   background-color: white;
   color: #666;
   will-change: top, left, width, height;
-
   .todo {
     margin: 0;
     margin-top: -44px;
@@ -89,6 +91,22 @@ export default {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
+  // .float_button {
+  // position: fixed;
+  // z-index: 999;
+  // bottom: 18px;
+  // right: 18px;
+  // width: 48px;
+  // height: 48px;
+  // border-radius: 50%;
+  // background-color: #5A89E6;
+  // box-shadow:0px 1px 4px #999;
+  //   .icon {
+  //     font-size: 48px;
+  //     line-height: 48px;
+  //     color: white;
+  //   }
+  // }
   &.show-leave-to,
   &.show-enter {
     border-radius: 8px;
@@ -110,16 +128,22 @@ export default {
       opacity: 0;
       transform: translate3d(0, -100%, 0);
     }
+    .float_button {
+      opacity: 0;
+      transform: scale(0);
+    }
   }
   &.show-enter-active,
   &.show-leave-active {
     transition: all .5s ease;
 
+    .float_button,
     .todo,
     .todo_head,
     .todo_body,
     .todo_menu,
     .todo_tasks,
+    .button
     .app-bar {
       transition: all .5s ease;
     }
