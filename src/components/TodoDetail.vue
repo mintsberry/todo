@@ -3,7 +3,8 @@
     <div class="todo-detail" v-if="selected">
       <AppBar @left="unselectTodo" :left="'arrow_left'"/>
       <Todo :todo="selected.todo" :selected="true" @close="unselectTodo" ref="todo" />
-      <FloatButton />
+      <FloatButton @btnClick="addTask" v-if="!addShow" ref="btn"/>
+      <AddTodo ref="addTodo" @hide="hideTodo"></AddTodo>
     </div>
   </transition>
 </template>
@@ -12,16 +13,24 @@
 import { mapState, mapMutations } from 'vuex'
 import AppBar from './AppBar.vue'
 import Todo from './Todo.vue'
+import AddTodo from './AddTodo.vue'
 import FloatButton from './FloatButton.vue'
 const BOOTOM_KEEP = 40
 export default {
   components: {
     AppBar,
     Todo,
-    FloatButton
+    FloatButton,
+    AddTodo
   },
   computed: {
     ...mapState(['selected', 'unselect'])
+  },
+  data () {
+    return {
+      addShow: false,
+      buttonStyle: null
+    }
   },
   methods: {
     _bodyOffset () {
@@ -56,6 +65,16 @@ export default {
       }, 0)
       this._bodyOffset()
     },
+    addTask () {
+      this.addShow = true
+      this.$refs.addTodo.show()
+      this.btnStyle = this.$refs.btn.$el.style
+    },
+    hideTodo () {
+      setTimeout(() => {
+        this.addShow = false
+      }, 300)
+    },
     ...mapMutations(['unselectTodo'])
   }
 }
@@ -65,6 +84,7 @@ export default {
 .todo-detail {
   position: fixed;
   display: flex;
+  z-index: 2;
   flex-direction: column;
   border-radius: 0;
   background-color: white;
@@ -91,22 +111,6 @@ export default {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
-  // .float_button {
-  // position: fixed;
-  // z-index: 999;
-  // bottom: 18px;
-  // right: 18px;
-  // width: 48px;
-  // height: 48px;
-  // border-radius: 50%;
-  // background-color: #5A89E6;
-  // box-shadow:0px 1px 4px #999;
-  //   .icon {
-  //     font-size: 48px;
-  //     line-height: 48px;
-  //     color: white;
-  //   }
-  // }
   &.show-leave-to,
   &.show-enter {
     border-radius: 8px;

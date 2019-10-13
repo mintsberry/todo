@@ -1,5 +1,5 @@
 <template>
-  <div class="float_button" v-if="selected">
+  <div class="float_button" v-if="selected" @click="btnClick">
     <i class="icon icon-plus"></i>
   </div>
 </template>
@@ -8,6 +8,11 @@ import { mapGetters } from 'vuex'
 export default {
   computed: {
     ...mapGetters(['selected'])
+  },
+  methods: {
+    btnClick () {
+      this.$emit('btnClick')
+    }
   }
 }
 </script>

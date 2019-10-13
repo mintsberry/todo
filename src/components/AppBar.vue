@@ -39,7 +39,6 @@ export default {
   height: 44px;
   font-size: 15px;
   z-index: 1;
-
   h1{
     display: flex;
     justify-content: center;
