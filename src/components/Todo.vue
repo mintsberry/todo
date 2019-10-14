@@ -19,7 +19,7 @@
           <span class="todo_progress_num">{{progress}}</span>
         </div>
       </div>
-      <div class="todo_tasks">
+      <div class="todo_tasks" v-if="selected">
         <h4 class="todo_subtitle" v-if="todayTasks.length">Today</h4>
         <ul>
           <li v-for="task in todayTasks" :key="task.id">
@@ -44,7 +44,7 @@
 </template>
 <script>
 import Task from './Task.vue'
-import { today, tomorrow } from '../common/js/shared'
+import { today, tomorrow, yesterday } from '../common/js/shared'
 const BOOTOM_KEEP = 40
 export default {
   components: {
@@ -87,7 +87,7 @@ export default {
     },
     outdatedTasks () {
       return this.todo.tasks.filter(task => {
-        return task.date < today
+        return task.date < today && task.date >= yesterday
       })
     }
   },

@@ -1,3 +1,5 @@
+import { tomorrow, yesterday } from '../common/js/shared'
+
 export default {
   currentIndex: 0,
   todos: [
@@ -7,7 +9,7 @@ export default {
       tasks: [
         {
           id: 1,
-          title: 'Dating',
+          title: '睡觉',
           date: new Date(),
           done: false,
           deleted: false
@@ -53,6 +55,13 @@ export default {
           date: new Date('2019-09-16'),
           done: false,
           deleted: false
+        },
+        {
+          id: 9,
+          title: 'Android',
+          date: yesterday,
+          done: false,
+          deleted: false
         }
       ],
       colors: ['#ff6262', '#ffa947']
@@ -63,10 +72,17 @@ export default {
       tasks: [
         {
           id: 2,
-          title: 'House Keeping',
+          title: '洗衣服',
           date: new Date(),
           done: true,
           deleted: false
+        },
+        {
+          id: 3,
+          title: '打扫',
+          date: tomorrow,
+          done: false,
+          delete: false
         }
       ],
       colors: ['#2c7d59', '#3ba776']
