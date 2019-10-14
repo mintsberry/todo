@@ -1,3 +1,5 @@
+import { saveTodo } from '../common/js/cache'
+
 export default {
   selectTodo (state, selected) {
     state.unselect = null
@@ -17,8 +19,15 @@ export default {
       state.currentIndex--
     }
   },
-  deleteTask (_, { task }) {
+  toggleDone (state, { task }) {
+    task.done = !task.done
+    let todo = state.selected.todo
+    saveTodo(todo.name, todo.tasks)
+  },
+  deleteTask (state, { task }) {
     task.deleted = true
+    let todo = state.selected.todo
+    saveTodo(todo.name, todo.tasks)
   },
   toggleEditing (state) {
     if (state.editing && state.editing.text) {

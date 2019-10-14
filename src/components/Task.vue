@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div class="task" v-if="!task.deleted">
-      <input :id="id" type="checkbox" v-model="task.done" />
+      <input :id="id" type="checkbox" :checked="done"  @click="toggleDone({ task })"/>
       <label :for="id">{{ task.title }}</label>
       <transition name="fade">
         <span
@@ -28,11 +28,12 @@ export default {
   },
   data () {
     return {
-      id: `task-${GID++}`
+      id: `task-${GID++}`,
+      done: this.task.done
     }
   },
   methods: {
-    ...mapMutations(['deleteTask'])
+    ...mapMutations(['deleteTask', 'toggleDone'])
   }
 }
 </script>

@@ -10,7 +10,7 @@
     </div>
     <div class="todo_body" ref="todo_body">
       <div class="todo_outline">
-        <p class="todo_tips">{{ todo.tasks.length }} Task</p>
+        <p class="todo_tips">{{ countTask }} Task</p>
         <h3 class="todo_title">{{todo.name}}</h3>
         <div class="todo_progress">
           <span class="todo_progress_line">
@@ -77,18 +77,21 @@ export default {
     },
     todayTasks () {
       return this.todo.tasks.filter(task => {
-        return task.date >= today && task.date < tomorrow
+        return new Date(task.date) >= today && new Date(task.date) < tomorrow && !task.deleted
       })
     },
     tomorrowTasks () {
       return this.todo.tasks.filter(task => {
-        return task.date >= tomorrow
+        return new Date(task.date) >= tomorrow
       })
     },
     outdatedTasks () {
       return this.todo.tasks.filter(task => {
-        return task.date < today && task.date >= yesterday
+        return new Date(task.date) < today && new Date(task.date) >= yesterday
       })
+    },
+    countTask () {
+      return this.todo.tasks.filter(t => !t.deleted).length
     }
   },
   mounted () {
