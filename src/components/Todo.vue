@@ -197,6 +197,7 @@ export default {
     }
     .todo_progress_num {
       font-size: 12px;
+      width: 32px;
     }
     .todo_tasks {
       opacity: 1;
